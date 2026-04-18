@@ -21,6 +21,14 @@ namespace noto_recovery_webgis_c.Services
         {
             var apiKey = _config["OPENAI_API_KEY"];
 
+            // ensure API key is present
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                throw new Exception("OPENAI_API_KEY is missing in configuration");
+            }
+
+            
+
             var requestBody = new
             {
                 model = "gpt-4o",
@@ -46,7 +54,20 @@ namespace noto_recovery_webgis_c.Services
             var response = await _http.SendAsync(request);
             var json = await response.Content.ReadAsStringAsync();
 
+            // check for API errors
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorText = await response.Content.ReadAsStringAsync();
+                throw new Exception($"OpenAI API error: {errorText}");
+            }
+
             using var doc = JsonDocument.Parse(json);
+
+            // check for expected structure
+            if (!doc.RootElement.TryGetProperty("choices", out var choices))
+            {
+                throw new Exception($"Invalid OpenAI response: {json}");
+            }
             var result = doc.RootElement
                 .GetProperty("choices")[0]
                 .GetProperty("message")
