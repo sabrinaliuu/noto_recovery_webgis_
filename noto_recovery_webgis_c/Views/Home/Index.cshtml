@@ -1,0 +1,168 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<div class="bg-slate-50 font-sans text-slate-900">
+
+    <!-- Top Bar -->
+    <div id="topBar">
+
+        <div class="flex items-center gap-3">
+            <button onclick="toggleLeftPanel()">☰</button>
+            <h1>Life Recovery after Noto Peninsula Earthquake</h1>
+        </div>
+
+        <div class="flex gap-4">
+            <button onclick="toggleModal('overviewPanel')">Overview</button>
+            <button onclick="toggleModal('aboutPanel')">Instruction</button>
+            <button onclick="toggleModal('recognitionPanel')">Recognition</button>
+        </div>
+
+    </div>
+
+    <div class="container mx-auto px-4 py-8">
+        <div id="map"></div>
+        <!-- Left Panel: Control + Bar Chart -->
+        <div class="left-panel" id="leftPanel">
+            <!-- Control -->
+            <div class="panel">
+                <h2 class="text-lg font-semibold mb-4 border-b pb-2 text-gray-600">Control</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-wider">
+                            1. Select recovery element
+                        </label>
+                        <select id="subCategorySelect" class="w-full p-3 border border-slate-200 rounded-lg bg-slate-50 font-bold text-sm"></select>
+                    </div>
+
+                    <div class="pt-2 border-t mt-2">
+                        <label class="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-wider">
+                            2. Select month
+                        </label>
+                        <input type="range" id="monthSlider" min="0" max="11" value="0" class="w-full h-2 bg-gray-100 rounded-lg">
+                        <div class="text-center text-sm text-gray-600 font-black mt-3" id="monthDisplay">202408</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bar Chart -->
+            <div class="panel">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-800">Sentiment Comparison</h2>
+                        <p class="text-xs text-slate-400" id="barChartSubTitle">Recovery Element：housing</p>
+                    </div>
+                    <span id="compareMonthDisplay" class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-bold">202408</span>
+                </div>
+                <div class="h-60">
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detail Panel -->
+        <div id="detailPanel" class="panel hidden draggable">
+            <div class="panel-header">
+                <span id="regionName">City</span>
+                <span class="close-btn" onclick="closeDetail()">×</span>
+            </div>
+
+            <div class="panel-body">
+                <div class="h-60">
+                    <canvas id="miniChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Panels -->
+        <div id="overviewPanel" class="modal-panel panel">
+            <div class="panel-header"></div>
+            <span class="close-btn" onclick="closeModal('overviewPanel')">×</span>
+            <h2 class="text-xl font-bold mb-4">Overview</h2>
+            <div class="p-5 text-sm text-slate-600 leading-relaxed space-y-3">
+                <p>
+                    This is the visualization of study <i>
+                    Analyzing the Seven Critical Elements of Life Recovery Using News: A Case Study of the 2024 Noto Peninsula Earthquake
+                </i>by Yen-Ching Liu* and Shosuke Sato.
+            </p>
+            <p>In this study, <b>NLP methods</b> were applied to recognized the <b>recovery elements, sentiments, and locations</b> in each paragraph. In other words, the textual data was converted into numerical data for further quantitative analysis.</p>
+            <p>This demonstrates the feasibility of using NLP methods on news data to gain insights into news media perceptions and to assess news coverage of disaster recovery. </p>
+            <hr>
+            <p>● Material: News on Yahoo! Japan News website</p>
+            <p>● Time: August 2024 to July 2025</p>
+            <p>● Seven Critical Elements for Life Recovery: housing, social ties, townscape, physical and mental health, preparedness, relation to government, and economic and financial situation (Tatsuki and Hayashi, 2002)</p>
+            <p>● Sentiments: positive, negative, and neutral</p>
+            <p>
+                ● 12 cities in Ishikawa Prefecture on the Noto Peninsula: Suzu-shi (珠洲市), Wajima-shi (輪島市), Noto-cho (能登町), Anamizu-machi (穴水町), Shika-machi (志賀町), Nanao-shi (七尾市), Nakanoto-machi (中能登町), Hakui-shi (羽咋市), Hodatsushimizu-cho (宝達志水町), Kahoku-shi (かほく市), Uchinada-machi (内灘町), Tsubata-machi (津幡町)
+                <hr>
+                <p>This website is produced by Yen-Ching Liu with Gemini</p>
+            </div>
+        </div>
+
+        <div id="aboutPanel" class="modal-panel panel">
+            <div class="panel-header"></div>
+            <span class="close-btn" onclick="closeModal('aboutPanel')">×</span>
+            <h2 class="text-xl font-bold mb-4">How to Use</h2>
+            <div class="p-5 text-sm text-slate-600 leading-relaxed space-y-3">
+                <h4 class="font-bold text-slate-800">Pie Chart</h4>
+                <p>
+                    ● <b>Color</b>：Proportion of <span class="text-emerald-600 font-bold">positive</span>, <span class="text-slate-400 font-bold">Neutral</span>, <span class="text-rose-500 font-bold">negative</span> sentiment<br>
+                    ● <b>Size</b>：More paragraphs → Bigger
+                </p>
+                <h4 class="font-bold text-slate-800">Control Panel</h4>
+                <p>
+                    <b>If you click on the pie chart, the line chart for that city will appear</b>：<br>
+                    ●  <b>Solid Line (for left y-axis)</b>：change of the proportion of sentiments<br>
+                    ●  <b>Dot Line (for right y-axis)</b>：number of paragraphs
+                </p>
+                <h4 class="font-bold text-slate-800">Recognition: NLP Model Application</h4>
+                <p>You can enter recovery-related sentence in Japanese here. The <b>Life Recovery Elements, Cities in Noto Peninsula, and Sentiment</b> will be recognized and displayed.</p>
+            </div>
+        </div>
+
+        <div id="recognitionPanel" class="modal-panel panel">
+            <div class="panel-header"></div>
+            <span class="close-btn" onclick="closeModal('recognitionPanel')">×</span>
+            <h2 class="text-xl font-bold mb-4">Recognition</h2>
+            <div class="p-5 text-sm text-slate-600 leading-relaxed space-y-3">
+                <p>Please enter recovery-related sentence in Japanese here. The <b>Life Recovery Elements, Cities in Noto Peninsula, and Sentiment</b> will be recognized and displayed.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-4">
+                    <textarea id="aiInput" rows="6" class="w-full p-4 border border-slate-200 rounded-xl bg-slate-50 focus:ring-2 focus:ring-gray-500 outline-none text-sm" placeholder="">能登半島地震で被災した輪島塗の工房を支援しようと東日本大震災の被災地で仮設商店として使われていたトレーラーハウス2台が、9日、輪島市の団体「輪島塗若手ネットワーク」に寄贈されました。</textarea>
+                    <button onclick="analyzeText()" class="w-full bg-gray-600 hover:bg-gray-200 text-white font-bold py-3 rounded-xl shadow-md transition-all">
+                        Submit
+                    </button>
+                </div>
+                <div id="aiResultArea" class="bg-slate-50 rounded-xl p-6 border border-dashed border-slate-300 relative min-h-[200px]">
+                    <div id="aiLoading" class="hidden absolute inset-0 bg-white/80 flex items-center justify-center z-10"><div class="loader"></div></div>
+                    <div id="aiContent" class="hidden space-y-4">
+                        <div class="text-sm font-bold text-slate-700 border-t pt-2">Life Recovery Elements：<div id="resElements" class="flex flex-wrap gap-1 "></div></div>
+                        <div class="text-sm font-bold text-slate-700 border-t pt-2">Location：<span id="resPlaces" class="text-gray-600"></span></div>
+                        <div class="text-sm font-bold text-slate-700 border-t pt-2">Sentiment：<span id="resSentiment" class="text-gray-600"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+ </div>
+
+
+@section Scripts {
+
+        <!-- Tailwind CSS -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <!-- Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <!-- leaflet --->
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <!-- panel.js -->
+        <script src="/js/panel.js"></script>
+        <!-- nlp.js -->
+        <script src="/js/nlp.js"></script>
+}
