@@ -19,6 +19,29 @@ namespace noto_recovery_webgis_c.Controllers
             _openai = openai;
         }
 
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok("Running");
+        }
+
+        // API for getting recogntion result only
+        [HttpGet("recognition")]
+        public async Task<IActionResult> Recognition([FromQuery] RecognitionRequest request)
+        {
+            var text = request.Text;
+
+            var result = new RecognitionResponse
+            {
+                Elements = _recovery.RecoveryElements(text),
+                Places = _recovery.ExtractCities(text),
+                Sentiment = await _openai.SentimentAsync(text)
+            };
+
+            return Ok(result);
+        }
+
+        // API for posting recognition result back to frontend
         [HttpPost("analyze")]
         public async Task<IActionResult> Analyze([FromBody] RecognitionRequest request)
         {
