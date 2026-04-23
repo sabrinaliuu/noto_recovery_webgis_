@@ -17,6 +17,8 @@
   <img src="https://img.shields.io/badge/Visual_Studio-5C2D91?style=for-the-badge&logo=visual%20studio&logoColor=white" />
 </p>
 
+:round_pushpin:This is the <b>ASP.NET</b> version. If you want to see the Flask version, please find the link below: 
+
 <p>
   :arrow_forward:<b>For Flask version: </b></br>
   ⚫<a href="https://github.com/sabrinaliuu/noto_recovery_webgis" target="_blank">Github</a>
@@ -33,14 +35,25 @@ This is a website that visualizes the study <i>Analyzing the Seven Critical Elem
 
 This website is produced by Yen-Ching Liu with Gemini.
 ### Interface
-#### Map and Charts
+#### - Map and Charts
 You can select <b>Recovery Element and Month</b>.
 The sentiment composition for each city will show on the map in a pie chart and under the map in a bar chart.<br>
 As you select the pie chart, the details for the change in sentiment will display on the left.
 
-#### Recognition: NLP Model Application
+#### - Recognition: NLP Model Application
 You can enter a recovery-related sentence in <b>Japanese</b> here.<br>
 The <b>Life Recovery Elements, Cities in Noto Peninsula, and Sentiment </b> will be recognized by our NLP models and displayed.5
+
+### Web API
+If you want to use the NLP model, you can retrieve it by
+```
+https://notorecovery-fmdvf9cucdbpgacw.canadacentral-01.azurewebsites.net/api/Recognition/recognition?Text={{please put your input sentence here}}
+
+# - Example -
+https://notorecovery-fmdvf9cucdbpgacw.canadacentral-01.azurewebsites.net/api/Recognition/recognition?Text=能登半島地震で被災した輪島塗の工房を支援しようと東日本大震災の被災地で仮設商店として使われていたトレーラーハウス2台が、9日、輪島市の団体「輪島塗若手ネットワーク」に寄贈されました。
+# Return json
+{"elements":["relation to government","economic and financial situation"],"places":["輪島市"],"sentiment":"Positive"}
+```
 
 ### Skills
 Use `JS/CSS/Leaflet (frontend) + ASP.NET/C# (backend)` then deploy by Azure
