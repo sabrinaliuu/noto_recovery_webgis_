@@ -52,12 +52,14 @@ The <b>Life Recovery Elements, Cities in Noto Peninsula, and Sentiment </b> will
 ### Web API
 If you want to use the NLP model, you can retrieve it by
 ```
-https://notorecovery-fmdvf9cucdbpgacw.canadacentral-01.azurewebsites.net/api/Recognition/recognition?Text={{please put your input sentence here}}
-
+## Python
 # - Example -
-https://notorecovery-fmdvf9cucdbpgacw.canadacentral-01.azurewebsites.net/api/Recognition/recognition?Text=能登半島地震で被災した輪島塗の工房を支援しようと東日本大震災の被災地で仮設商店として使われていたトレーラーハウス2台が、9日、輪島市の団体「輪島塗若手ネットワーク」に寄贈されました。
+import requests
+r = requests.post("https://notorecovery-fmdvf9cucdbpgacw.canadacentral-01.azurewebsites.net/api/Recognition/analyze",  json={"Text":"能登半島地震で被災した輪島塗の工房を支援しようと東日本大震災の被災地で仮設商店として使われていたトレーラーハウス2台が、9日、輪島市の団体「輪島塗若手ネットワーク」に寄贈されました"})
+print(r.json())
+
 # Return json
-{"elements":["relation to government","economic and financial situation"],"places":["輪島市"],"sentiment":"Positive"}
+{"elements":["relation to government","economic and financial situation"],"places":["輪島市"],"sentiment":"Neutral"}
 ```
 
 ### Skills
