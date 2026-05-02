@@ -17,12 +17,17 @@
   <img src="https://img.shields.io/badge/Visual_Studio-5C2D91?style=for-the-badge&logo=visual%20studio&logoColor=white" />
 </p>
 
-:round_pushpin:This is the <b>ASP.NET</b> version. If you want to see the Flask version, please find the link below: 
+:round_pushpin:This is the <b>ASP.NET</b> version. If you want to see the other versions, please find the link below:
 
 <p>
-  :arrow_forward:<b>For Flask version: </b></br>
+  :arrow_forward:<b>For JS + Flask version: </b></br>
   ⚫<a href="https://github.com/sabrinaliuu/noto_recovery_webgis" target="_blank">Github</a>
   🔵<a href="https://sabrinaliuu.github.io/noto_recovery_webgis/" target="_blank">Website</a>
+</p>
+<p>
+   :arrow_forward:<b>For VueJS + Flask version: </b></br>
+  ⚫<a href="https://github.com/sabrinaliuu/noto_recovery_webgis_vue" target="_blank">Github</a>
+  🔵<a href="https://sabrinaliuu.github.io/noto_recovery_webgis_vue/" target="_blank">Website</a>
 </p>
 
 ## About the website
@@ -70,4 +75,5 @@ Details are provided below:
 
 This demonstrates the feasibility of using NLP methods on news data to gain insights into news media perceptions and to assess news coverage of disaster recovery.
 
-Note: Manuscript under review
+<mark>The study will be published in the <a href="https://www.fujipress.jp/jdr/"  target="_blank">Journal of Disaster Research</a>, Vol. 21, No. 3, in June 2026, 
+as <i>Yen-Ching Liu*, Shosuke Sato: Analyzing the Seven Critical Elements of Life Recovery Using News: A Case Study of the 2024 Noto Peninsula Earthquake</i>.</mark>
