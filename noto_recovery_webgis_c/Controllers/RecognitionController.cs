@@ -25,8 +25,8 @@ namespace noto_recovery_webgis_c.Controllers
             return Ok("Running");
         }
 
-        // API for getting recogntion result only
-        [HttpGet("recognition")]
+        // API for getting recognition result only
+        /*[HttpGet("recognition")]
         public async Task<IActionResult> Recognition([FromQuery] RecognitionRequest request)
         {
             var text = request.Text;
@@ -39,7 +39,7 @@ namespace noto_recovery_webgis_c.Controllers
             };
 
             return Ok(result);
-        }
+        }*/
 
         // API for posting recognition result back to frontend
         [HttpPost("analyze")]
