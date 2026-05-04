@@ -47,19 +47,19 @@ flowchart TB
 
     User((User Browser))
 
-    subgraph Frontend ["Frontend (Vue.js + Leaflet)"]
+    subgraph Frontend ["Frontend (JS + Leaflet)"]
         direction TB
-        Vue[Vue.js Composition API]
+        JS[JavaScript]
         Map[Leaflet.js Map]
-        Store[State Management / Axios]
+        Store[State Management]
         
-        Vue <--> Store
+        JS <--> Store
         Store <--> Map
     end
 
-    subgraph Backend ["Backend (Flask API)"]
+    subgraph Backend ["Backend (ASP.NET)"]
         direction TB
-        Route[Flask Routes]
+        Route[ASP.NET Controller]
         Logic[Data Processing Logic]
         DB[(SQL Server / GeoJSON)]
         
@@ -92,7 +92,7 @@ flowchart TB
     end
 
     %% Link Relations
-    User <==>|1. Interaction / Input| Vue
+    User <==>|1. Interaction / Input| JS
     Store <==>|2. RESTful API Request| Route
     Route <==>|3. Model Inference| Tasks
 
